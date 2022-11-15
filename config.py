@@ -20,7 +20,7 @@ sns.set_style('ticks',
                'xtick.top': True, 'ytick.right': True,
               })
 
-from PyHEADTAIL.trackers.rf_bucket import RFBucket
+#from PyHEADTAIL.trackers.rf_bucket import RFBucket
 
 from scipy.constants import m_p, c, e
 
