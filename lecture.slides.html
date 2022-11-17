@@ -14945,7 +14945,7 @@ $$T =
 <p>Design / reference energy increases as determined by synchronous phase $\varphi_s$,</p>
 $$\Delta W_0 = q V\cdot\sin(\varphi_s)$$<p>with the effective rf voltage $V = V_0 T$.</p>
 <p>Real particles travel at a longitudinal distance $z = s - \beta c t$ to synchronous particle. They experience the rf kick at phase $\varphi = \omega_\text{rf}\,t = \varphi_s - \cfrac{\omega_\text{rf} z}{\beta c}$. Corresponding energy gain is $\Delta W = q V\cdot \sin(\varphi)$.</p>
-<p>Expressed as an energy distance $\Delta E$ to the synchronous particle, $\Delta E=E_\text{tot} - E_{\text{tot},0}$, the discrete energy update of an arbitrary particle passing through a rf cavity becomes</p>
+<p>Expressed as an energy distance $\Delta E$ to the synchronous particle, $\Delta E=E_\text{tot} - E_{\text{tot},0}$, the discrete energy update of an arbitrary particle passing through an rf cavity becomes</p>
 $$\begin{align}
 \Delta E|_\text{after} &amp;= \Delta E|_\text{before} + \Delta W - \Delta W_0 \\
 &amp;= \Delta E|_\text{before} + q V\cdot \bigl(\sin(\varphi) - \sin(\varphi_s)\bigr)
@@ -15258,7 +15258,7 @@ $$\eta = \alpha_c - \frac{1}{\gamma^2}$$
 $$\Delta E|_\text{after} = \Delta E|_\text{before} + q V\cdot \left(\sin\left(\varphi_s - \frac{\omega_\text{rf}z}{\beta c}\right) - \sin(\varphi_s)\right) \quad ,$$<p>and the longitudinal drifting (or phase slippage), $\Delta T_\text{rev} = \eta \delta T_\text{rev}$, form the discrete longitudinal one-turn map or tracking equations (in absence of other energy loss terms such as synchrotron radiation).</p>
 <p>Express tracking equations in terms of the phase-space coordinates $(z, \delta)$ without acceleration $\Delta E_{\text{tot},0}=0$: after one turn the longitudinal offset $z=s-\beta ct$ amounts to</p>
 $$z=C-\beta c (T_{\text{rev},0} + \Delta T_\text{rev}) = -\beta c \Delta T_\text{rev} \implies z_{n+1}=z_n - \eta C \delta $$<p>and with $\delta = \frac{\Delta p}{p_0} = \frac{1}{p_0}\cdot \frac{\Delta E}{\beta c}$,</p>
-$$\delta_{n+1} = \delta_n + \cfrac{q V}{\beta c p_0}\cdot\sin\left(\varphi_s - \cfrac{\omega_\text{rf}z}{\beta c}\right) \quad .$$
+$$\delta_{n+1} = \delta_n + \cfrac{q V}{\beta c p_0}\cdot\sin\left(\varphi_s - \cfrac{\omega_\text{rf}z_{n+1}}{\beta c}\right) \quad .$$
 </div>
 </div>
 </div>
@@ -15275,8 +15275,8 @@ $$\delta_{n+1} = \delta_n + \cfrac{q V}{\beta c p_0}\cdot\sin\left(\varphi_s - \
 $$\omega_\text{rf}=h\omega_\text{rev}=2\pi h / T_\text{rev} = 2\pi h \beta c/C \quad .$$<div class="alert alert-block alert-success" style="text-align:center;">
 The <b>longitudinal tracking equations</b> from turn $n$ to $n+1$ in a synchrotron hence read
 $$\left\{\begin{array}\,
-    z_{n+1} &amp;= z_n - \eta C \delta_n \\
-    (\Delta p)_{n+1} &amp;= (\Delta p)_n + \cfrac{q V}{(\beta c)_n}\cdot\left(\sin\left(\varphi_s - \cfrac{2\pi}{C}\cdot hz\right) - \sin(\varphi_s)\right)
+    z_{n+1} &amp;= z_n - \eta C \left(\cfrac{\Delta p}{p_0}\right)_n \\
+    (\Delta p)_{n+1} &amp;= (\Delta p)_n + \cfrac{q V}{(\beta c)_n}\cdot\left(\sin\left(\varphi_s - \cfrac{2\pi}{C}\cdot hz_{n+1}\right) - \sin(\varphi_s)\right)
 \end{array}\right.$$<p style="text-align: center; margin-top: 1em;">with the synchronous phase $\varphi_s$ determined by $(\delta p_0)_\text{turn} = \frac{q V}{\beta c}\,sin\bigl(\varphi_s\bigr)$.</p>
 </div>
 
@@ -15422,6 +15422,67 @@ class="
 <li>phase focusing and stability</li>
 <li>longitudinal tracking equations</li>
 </ul>
+
+</div>
+</div>
+</div>
+</div></section></section><section ><section >
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2>Comprehension Questions</h2>
+<ol>
+<li>In a ring, why can one not apply a DC voltage across a gap to accelerate the particles?</li>
+</ol>
+<hr />
+<ol start="2">
+<li>Why is the rf frequency an integer multiple (the &quot;harmonic&quot; $h$) of the revolution frequency?</li>
+</ol>
+<hr />
+<ol start="3">
+<li>Given a typical ring layout (due to the bending magnets, the dipoles):  <br />
+ a) Is the experienced circumference larger or smaller for particles with $\delta &gt; 0$ (larger momentum than the synchronous particle)? <br />
+ b) How is this effect called? <br />
+ c) What happens to this effect / quantity when the bending radius becomes infinite (a.k.a. linear accelerator)?</li>
+</ol>
+<hr />
+<ol start="4">
+<li>The $\eta$ parameter is also called &quot;phase-slip factor&quot;. It relates the arrival time (or frequency) with the momentum. <br />
+ a) What is the qualitative reason for the dependency of $\eta$ on the energy / momentum? <br />
+ b) At low energies with $\gamma &lt; \gamma_\text{t}$: do particles with $\delta &lt; 0$ arrive before or after particles with $\delta &gt; 0$? <br />
+ c) Same as b) but for high energies with $\gamma &gt; \gamma_\text{t}$.</li>
+</ol>
+<hr />
+<ol start="5">
+<li>What are the relevant equations of motion for a particle circulating in a ring which is subject to standing waves in rf cavities?</li>
+</ol>
+<hr />
+<ol start="6">
+<li>What does an operator in the control room change to make a synchrotron accelerate the particles? The dipole magnet strength or the rf cavity timing? (i.e. which of the two parameters depends on the other?)</li>
+</ol>
+
+</div>
+</div>
+</div>
+</div></section></section><section ><section >
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2>Exercises</h2>
+<p>Based on the CERN Proton Synchrotron machine parameters:</p>
+<ol>
+<li>Tracking of particles in stationary rf bucket</li>
+<li>Synchrotron frequency determination (via NAFF)</li>
+<li>Derivation of Hamiltonian $\mathcal{H}(z,\delta)=T(\delta) + V(z)$ for stationary rf bucket</li>
+<li>Tracking of particles in accelerating rf bucket</li>
+<li>Tracking like (4) above transition / relativistic regime</li>
+</ol>
 
 </div>
 </div>
