@@ -20,53 +20,8 @@ sns.set_style('ticks',
                'xtick.top': True, 'ytick.right': True,
               })
 
-#from PyHEADTAIL.trackers.rf_bucket import RFBucket
 
 from scipy.constants import m_p, c, e
-
-def plot_hamiltonian(rfb, z_left=None, z_right=None):
-    if z_left is None:
-        z_left = rfb.interval[0]
-    if z_right is None:
-        z_right = rfb.interval[1]
-    dpmax = rfb.dp_max(rfb.z_ufp_separatrix)
-    zz = np.linspace(z_left, z_right, num=10000)
-    Z, DP = np.meshgrid(zz, np.linspace(-dpmax*1.1, dpmax*1.1, num=100))
-    H = rfb.hamiltonian(Z, DP)
-    plt.contourf(Z, DP, H, cmap=plt.get_cmap('hot_r'), levels=12,
-                 zorder=0, alpha=0.5)
-    plt.xlabel('$z$ [m]')
-    plt.ylabel(r'$\delta$')
-    cbar = plt.colorbar(label=r'$\mathcal{H}(z, \delta)$ [C$\cdot$V/$p_0$]')
-    cbar.ax.axhline(0, c='blue', lw=2)
-    zz_sep = zz[np.isclose(rfb.hamiltonian(zz, rfb.separatrix(zz)), 0)]
-    plt.plot(zz_sep, rfb.separatrix(zz_sep), c='blue', lw=2)
-    plt.plot(zz_sep, -rfb.separatrix(zz_sep), c='blue', lw=2)
-    plt.xlim(z_left, z_right)
-    plt.ylim(-dpmax * 1.1, dpmax * 1.1)
-    return plt.gcf()
-
-def plot_force(rfb, z_left=None, z_right=None):
-    if z_left is None:
-        z_left = rfb.interval[0]
-    if z_right is None:
-        z_right = rfb.interval[1]
-    zz = np.linspace(z_left, z_right, num=10000)
-    plt.plot(zz, rfb.total_force(zz) / e)
-    plt.xlabel('$z$ [m]')
-    plt.ylabel(r'$F(z)$ [eV/m]')
-    return plt.gcf()
-
-def plot_potential(rfb, z_left=None, z_right=None):
-    if z_left is None:
-        z_left = rfb.interval[0]
-    if z_right is None:
-        z_right = rfb.interval[1]
-    zz = np.linspace(z_left, z_right, num=10000)
-    plt.plot(zz, rfb.total_potential(zz) / e)
-    plt.xlabel('$z$ [m]')
-    plt.ylabel(r'$V(z)$ [eV]')
-    return plt.gcf()
 
 def plot_rfwave(phi_s=0.5, regime='classical'):
     phi = np.linspace(-1.5, 7, 1000)
