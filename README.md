@@ -37,8 +37,8 @@ cd TUDa-NMAP-04-main
 3. You have downloaded, unzipped and entered the lecture repository. As a last step, install the dependencies:
 
 ``` bash
-export TMPDIR=`pwd`
-pip install -r requirements_noversions.txt --prefix=`pwd`/requirements
+export TMPDIR="`pwd`"
+pip install -r requirements_noversions.txt --prefix="`pwd`"/requirements
 ``` 
 
 Close the terminal tab and open the `lecture.ipynb` notebook inside the repository directory on the jupyterhub main page.
