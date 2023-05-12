@@ -14961,8 +14961,7 @@ $$\begin{align}
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="p">(</span><span class="n">np</span><span class="p">,</span> <span class="n">plt</span><span class="p">,</span> <span class="n">plot_rfwave</span><span class="p">,</span> <span class="c1">#RFBucket, </span>
-                    <span class="n">plot_hamiltonian</span><span class="p">,</span> <span class="n">plot_force</span><span class="p">,</span> <span class="n">plot_potential</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">np</span><span class="p">,</span> <span class="n">plt</span><span class="p">,</span> <span class="n">plot_rfwave</span>
 <span class="kn">from</span> <span class="nn">scipy.constants</span> <span class="kn">import</span> <span class="n">m_p</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">c</span>
 <span class="o">%</span><span class="k">matplotlib</span> inline
 </pre></div>
@@ -15257,7 +15256,7 @@ $$\eta = \alpha_c - \frac{1}{\gamma^2}$$
 <p>The energy gain in the rf cavity,</p>
 $$\Delta E|_\text{after} = \Delta E|_\text{before} + q V\cdot \left(\sin\left(\varphi_s - \frac{\omega_\text{rf}z}{\beta c}\right) - \sin(\varphi_s)\right) \quad ,$$<p>and the longitudinal drifting (or phase slippage), $\Delta T_\text{rev} = \eta \delta T_\text{rev}$, form the discrete longitudinal one-turn map or tracking equations (in absence of other energy loss terms such as synchrotron radiation).</p>
 <p>Express tracking equations in terms of the phase-space coordinates $(z, \delta)$ without acceleration $\Delta E_{\text{tot},0}=0$: after one turn the longitudinal offset $z=s-\beta ct$ amounts to</p>
-$$z=C-\beta c (T_{\text{rev},0} + \Delta T_\text{rev}) = -\beta c \Delta T_\text{rev} \implies z_{n+1}=z_n - \eta C \delta $$<p>and with $\delta = \frac{\Delta p}{p_0} = \frac{1}{p_0}\cdot \frac{\Delta E}{\beta c}$,</p>
+$$z=C-\beta c (T_{\text{rev},0} + \Delta T_\text{rev}) = -\beta c \Delta T_\text{rev} \implies z_{n+1}=z_n - \eta C \delta_n $$<p>and with $\delta = \frac{\Delta p}{p_0} = \frac{1}{p_0}\cdot \frac{\Delta E}{\beta c}$,</p>
 $$\delta_{n+1} = \delta_n + \cfrac{q V}{\beta c p_0}\cdot\sin\left(\varphi_s - \cfrac{\omega_\text{rf}z_{n+1}}{\beta c}\right) \quad .$$
 </div>
 </div>
@@ -15477,13 +15476,464 @@ class="
 <h2>Exercises</h2>
 <p>Based on the CERN Proton Synchrotron machine parameters:</p>
 <ol>
-<li>Tracking of particles in stationary rf bucket</li>
+<li>Tracking of particles for stationary synchronous particle ($\varphi_s=0$)</li>
 <li>Synchrotron frequency determination (via NAFF)</li>
-<li>Derivation of Hamiltonian $\mathcal{H}(z,\delta)=T(\delta) + V(z)$ for stationary rf bucket</li>
-<li>Tracking of particles in accelerating rf bucket</li>
+<li>Derivation of Hamiltonian $\mathcal{H}(z,\delta)=T(\delta) + V(z)$ for stationary synchronous particle ($\varphi_s=0$)</li>
+<li>Tracking of particles for accelerating synchronous particle ($\varphi_s&gt;0$)</li>
 <li>Tracking like (4) above transition / relativistic regime</li>
 </ol>
 
+</div>
+</div>
+</div>
+</div></section></section><section ><section >
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2>Material for Exercises</h2>
+
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>The CERN Proton Synchrotron (PS):</p>
+<ul>
+<li>has a circumference of 2π·100m</li>
+<li>takes protons from the PS Booster at a kinetic energy of 2GeV corresponding to a γ of 3.13</li>
+<li>injects with 50kV of rf voltage, up to 200kV for ramp</li>
+<li>runs at harmonic $h=7$</li>
+<li>has a momentum compaction factor of $\alpha_c=0.027$</li>
+<li>typical acceleration rate of (up to) $\dot{B}=2$ T/s, the bending radius is $\rho=70.08$ m</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<img src="./img/ps-tunnel.jpg" alt="CERN PS tunnel" style="width:50%;"/>
+
+</div>
+</div>
+</div>
+</div></section></section><section ><section >
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Some convenience functions to compute the speed β and the relativistic Lorentz factor γ:</p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">beta</span><span class="p">(</span><span class="n">gamma</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Speed β in units of c from relativistic Lorentz factor γ.&#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">gamma</span><span class="o">**-</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">gamma</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Relativistic Lorentz factor γ from total momentum p.&#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">p</span> <span class="o">/</span> <span class="p">(</span><span class="n">mass</span> <span class="o">*</span> <span class="n">c</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div></section></section><section ><section >
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>We gather all the machine parameters in a class named <code>Machine</code>.</p>
+<p>A <code>Machine</code> instance knows</p>
+<ul>
+<li>at which energy the synchronous particle (reference γ, <code>gamma_ref</code>, or alternatively the momentum <code>p0()</code>) currently runs,</li>
+<li>what the acceleration rate is in terms of the synchronous phase φ_s, <code>phi_s</code></li>
+<li>how to compute the phase-slip factor $\eta$, <code>eta</code>, for a particle at a certain momentum p0 + Δp</li>
+<li>how to update the energy of the synchronous particle via <code>update_gamma_ref()</code> when a turn has passed</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div></section></section><section ><section ><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">charge</span> <span class="o">=</span> <span class="n">e</span>
+<span class="n">mass</span> <span class="o">=</span> <span class="n">m_p</span>
+
+<span class="k">class</span> <span class="nc">Machine</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="n">gamma_ref</span> <span class="o">=</span> <span class="c1">#fill me</span>
+    <span class="n">circumference</span> <span class="o">=</span> <span class="c1">#fill me</span>
+    <span class="n">voltage</span> <span class="o">=</span> <span class="c1">#fill me</span>
+    <span class="n">harmonic</span> <span class="o">=</span> <span class="c1">#fill me</span>
+    <span class="n">alpha_c</span> <span class="o">=</span> <span class="c1">#fill me</span>
+    <span class="n">phi_s</span> <span class="o">=</span> <span class="c1">#fill me</span>
+    
+    <span class="k">def</span> <span class="nf">eta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">deltap</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Phase-slip factor for a particle.&#39;&#39;&#39;</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">p0</span><span class="p">()</span> <span class="o">+</span> <span class="n">deltap</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha_c</span> <span class="o">-</span> <span class="n">gamma</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">**-</span><span class="mi">2</span>
+
+    <span class="k">def</span> <span class="nf">p0</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Momentum of synchronous particle.&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma_ref</span> <span class="o">*</span> <span class="n">beta</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gamma_ref</span><span class="p">)</span> <span class="o">*</span> <span class="n">mass</span> <span class="o">*</span> <span class="n">c</span>
+
+    <span class="k">def</span> <span class="nf">update_gamma_ref</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Advance the energy of the synchronous particle</span>
+<span class="sd">        according to the synchronous phase by one turn.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">deltap_per_turn</span> <span class="o">=</span> <span class="n">charge</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">voltage</span> <span class="o">/</span> <span class="p">(</span>
+            <span class="n">beta</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gamma_ref</span><span class="p">)</span> <span class="o">*</span> <span class="n">c</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">phi_s</span><span class="p">)</span>
+        <span class="n">new_p0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">p0</span><span class="p">()</span> <span class="o">+</span> <span class="n">deltap_per_turn</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gamma_ref</span> <span class="o">=</span> <span class="n">gamma</span><span class="p">(</span><span class="n">new_p0</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div></section></section><section ><section >
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>To compute a synchronous phase, you may use these convenience functions to compute the arcsin on the interval of [-π/2,π/2], remember you may likely want to find a synchronous phase on [0,π]!</p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">deltap_per_turn</span><span class="p">(</span><span class="n">Bdot</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span> <span class="n">circumference</span><span class="p">,</span> <span class="n">p0</span><span class="p">):</span>
+    <span class="n">Trev</span> <span class="o">=</span> <span class="n">circumference</span> <span class="o">/</span> <span class="p">(</span><span class="n">beta</span><span class="p">(</span><span class="n">gamma</span><span class="p">(</span><span class="n">p0</span><span class="p">))</span> <span class="o">*</span> <span class="n">c</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Bdot</span> <span class="o">*</span> <span class="n">rho</span> <span class="o">*</span> <span class="n">charge</span> <span class="o">*</span> <span class="n">Trev</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">compute_phi_s</span><span class="p">(</span><span class="n">deltap_per_turn</span><span class="p">,</span> <span class="n">p0</span><span class="p">,</span> <span class="n">voltage</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Return *first* positive phase which matches the</span>
+<span class="sd">    given Δp/turn on the interval [0, π/2].</span>
+<span class="sd">    Do check whether you need to use π-φ_s for stability!</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span>
+        <span class="n">deltap_per_turn</span> <span class="o">*</span> <span class="n">beta</span><span class="p">(</span><span class="n">gamma</span><span class="p">(</span><span class="n">p0</span><span class="p">))</span> <span class="o">*</span> <span class="n">c</span> <span class="o">/</span> <span class="p">(</span><span class="n">charge</span> <span class="o">*</span> <span class="n">voltage</span><span class="p">)</span>
+    <span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div></section></section><section ><section >
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>The tracking equations for the longitudinal plane read:</p>
+$$\left\{\begin{array}\,
+    z_{n+1} &amp;= z_n - \eta C \left(\cfrac{\Delta p}{p_0}\right)_n \\
+    (\Delta p)_{n+1} &amp;= (\Delta p)_n + \cfrac{q V}{(\beta c)_n}\cdot\left(\sin\left(\varphi_s - \cfrac{2\pi}{C}\cdot hz_{n+1}\right) - \sin(\varphi_s)\right)
+\end{array}\right.$$<p>We implement them with a leapfrog (half-drift + kick + half-drift) scheme.</p>
+
+</div>
+</div>
+</div>
+</div></section></section><section ><section ><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">track_one_turn</span><span class="p">(</span><span class="n">z_n</span><span class="p">,</span> <span class="n">deltap_n</span><span class="p">,</span> <span class="n">machine</span><span class="p">):</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">machine</span>
+    <span class="c1"># half drift</span>
+    <span class="n">z_nhalf</span> <span class="o">=</span> <span class="n">z_n</span> <span class="o">-</span> <span class="n">m</span><span class="o">.</span><span class="n">eta</span><span class="p">(</span><span class="n">deltap_n</span><span class="p">)</span> <span class="o">*</span> <span class="n">deltap_n</span> <span class="o">/</span> <span class="n">m</span><span class="o">.</span><span class="n">p0</span><span class="p">()</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">circumference</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="c1"># rf kick</span>
+    <span class="n">amplitude</span> <span class="o">=</span> <span class="n">charge</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">voltage</span> <span class="o">/</span> <span class="p">(</span><span class="n">beta</span><span class="p">(</span><span class="n">gamma</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">p0</span><span class="p">()))</span> <span class="o">*</span> <span class="n">c</span><span class="p">)</span>
+    <span class="n">phi</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">phi_s</span> <span class="o">-</span> <span class="n">m</span><span class="o">.</span><span class="n">harmonic</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">z_nhalf</span> <span class="o">/</span> <span class="n">m</span><span class="o">.</span><span class="n">circumference</span>
+    
+    <span class="n">m</span><span class="o">.</span><span class="n">update_gamma_ref</span><span class="p">()</span>
+    <span class="n">deltap_n1</span> <span class="o">=</span> <span class="n">deltap_n</span> <span class="o">+</span> <span class="n">amplitude</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">phi_s</span><span class="p">))</span>
+    <span class="c1"># half drift</span>
+    <span class="n">z_n1</span> <span class="o">=</span> <span class="n">z_nhalf</span> <span class="o">-</span> <span class="n">m</span><span class="o">.</span><span class="n">eta</span><span class="p">(</span><span class="n">deltap_n1</span><span class="p">)</span> <span class="o">*</span> <span class="n">deltap_n1</span> <span class="o">/</span> <span class="n">m</span><span class="o">.</span><span class="n">p0</span><span class="p">()</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">circumference</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="k">return</span> <span class="n">z_n1</span><span class="p">,</span> <span class="n">deltap_n1</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div></section></section><section ><section >
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>The <code>Machine</code> instance will keep track of the reference energy during the tracking by calling <code>update_gamma_ref()</code> once per turn:</p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">Machine</span><span class="p">()</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Particles are tracked by their two longitudinal coordinates $(z, \Delta p)$. The initial values are stored in <code>z_ini</code> and <code>deltap_ini</code> as <code>numpy.array</code>s. These should have <code>N</code> entries for $N$ particles.</p>
+<p>(You may use numpy helper functions such as <code>np.linspace</code> or <code>np.arange</code> for convenient initialisation!)</p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">n_turns</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">deltap_ini</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.</span><span class="p">])</span> <span class="c1">#np.linspace(start, end, 20)</span>
+<span class="n">z_ini</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.</span><span class="p">])</span> <span class="c1">#np.zeros_like(deltap_ini)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">z_ini</span><span class="p">)</span>
+<span class="k">assert</span> <span class="p">(</span><span class="n">N</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">deltap_ini</span><span class="p">))</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div></section></section><section ><section >
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>To store the coordinate values during tracking, prepare some <code>n_turns</code> long 2D arrays with <code>N</code> entries per turn:</p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_turns</span><span class="p">,</span> <span class="n">N</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+<span class="n">deltap</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+
+<span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">z_ini</span>
+<span class="n">deltap</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">deltap_ini</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>We would also like to store the reference gamma for each turn:</p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gammas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_turns</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+<span class="n">gammas</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">gamma_ref</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div></section></section><section ><section >
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Let's go, here's the tracking loop over the number of turns <code>n_turns</code>!</p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">i_turn</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_turns</span><span class="p">):</span>
+    <span class="n">z</span><span class="p">[</span><span class="n">i_turn</span><span class="p">],</span> <span class="n">deltap</span><span class="p">[</span><span class="n">i_turn</span><span class="p">]</span> <span class="o">=</span> <span class="n">track_one_turn</span><span class="p">(</span><span class="n">z</span><span class="p">[</span><span class="n">i_turn</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">deltap</span><span class="p">[</span><span class="n">i_turn</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">m</span><span class="p">)</span>
+    <span class="n">gammas</span><span class="p">[</span><span class="n">i_turn</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">gamma_ref</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div></section></section><section ><section ><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">gammas</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Turns&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$\gamma_</span><span class="si">{ref}</span><span class="s1">$&#39;</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div></section></section><section ><section ><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">deltap</span> <span class="o">/</span> <span class="n">m</span><span class="o">.</span><span class="n">p0</span><span class="p">(),</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$z$ [m]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$\Delta p/p_0$&#39;</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div></section></section><section ><section >
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="Enjoy!-:-))">Enjoy! :-))<a class="anchor-link" href="#Enjoy!-:-))">&#182;</a></h3>
 </div>
 </div>
 </div>
